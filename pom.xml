@@ -5,7 +5,9 @@
 	<modules>
 		<module>main-service</module>
 		<module>stats</module>
+
 	</modules>
+
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -20,17 +22,6 @@
 	<artifactId>explore-with-me</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
-
-	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
-
-
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -194,3 +185,5 @@
 		</profile>
 	</profiles>
 </project>
+
+
