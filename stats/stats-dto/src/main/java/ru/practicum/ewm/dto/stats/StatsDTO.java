@@ -1,6 +1,5 @@
 package ru.practicum.ewm.dto.stats;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
