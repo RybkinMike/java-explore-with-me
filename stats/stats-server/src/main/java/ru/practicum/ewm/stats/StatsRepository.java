@@ -20,18 +20,18 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
 
     @Query("select distinct s.uri " +
             "from Stats as s")
-    List<String> getDistinctUri();
+    String [] getDistinctUri();
 
     @Query("select s.uri " +
             "from Stats as s " +
             "where s.uri in (?1) " +
             "and s.created > ?2 and s.created < ?3 " +
             "GROUP BY s.ip")
-    List<String> getUrisByUriForUniqueIP(List<String> uris, LocalDateTime from, LocalDateTime to);
+    List<String> getUrisByUriForUniqueIP(String [] uris, LocalDateTime from, LocalDateTime to);
 
     @Query("select s.uri " +
             "from Stats as s " +
             "where s.uri in (?1) " +
             "and s.created > ?2 and s.created < ?3")
-    List<String> getUrisByUri(List<String> uris, LocalDateTime from, LocalDateTime to);
+    List<String> getUrisByUri(String [] uris, LocalDateTime from, LocalDateTime to);
 }

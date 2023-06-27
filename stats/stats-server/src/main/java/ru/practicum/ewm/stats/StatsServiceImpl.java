@@ -23,10 +23,10 @@ public class StatsServiceImpl implements StatsService {
     final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public List<StatsDTO> getStatsFromDB(String start, String end, List<String> uris, boolean unique) {
+    public List<StatsDTO> getStatsFromDB(String start, String end, String [] uris, boolean unique) {
         LocalDateTime from = LocalDateTime.parse(start, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(end, dateTimeFormatter);
-        if (uris == null || uris.size() == 0 || uris.get(0).equals("events/") || uris.get(0).isBlank()) {
+        if (uris == null || uris.length == 0 || uris[0].equals("events/") || uris[0].isBlank()) {
             uris = repository.getDistinctUri();
         }
         List<StatsDTO> listDTO = new ArrayList<>();
