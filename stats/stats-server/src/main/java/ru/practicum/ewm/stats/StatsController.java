@@ -20,13 +20,14 @@ public class StatsController {
     @GetMapping("/stats")
     public List<StatsDTO> getStats(@RequestParam(value = "start") String start,
                                    @RequestParam(value = "end") String end,
-                                   @RequestParam(value = "uris", defaultValue = "") String[] uris,
+                                   @RequestParam(value = "uris", defaultValue = "") List<String> uris,
                                    @RequestParam(value = "unique", defaultValue = "false") boolean unique) {
         return statsService.getStatsFromDB(start, end, uris, unique);
     }
 
     @PostMapping("/hit")
     public Stats saveStats(@RequestBody Stats stats) {
+        System.out.println(stats);
         return statsService.saveStats(stats);
     }
 

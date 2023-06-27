@@ -10,8 +10,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>ru.practicum</groupId>
     <artifactId>stats</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>stats-client</module>
         <module>stats-dto</module>

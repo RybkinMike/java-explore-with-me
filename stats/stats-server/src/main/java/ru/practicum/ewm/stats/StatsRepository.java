@@ -9,37 +9,30 @@ import java.util.List;
 
 @Repository
 public interface StatsRepository extends JpaRepository<Stats, Long> {
-    long countByUriAndCreatedAfterAndCreatedBefore(String uri, LocalDateTime start, LocalDateTime end);
-
-    long countByCreatedAfterAndCreatedBefore(LocalDateTime start, LocalDateTime end);
+    long countByUriAndCreatedAfterAndCreatedBefore(StringBuilder uri, LocalDateTime start, LocalDateTime end);
 
     @Query("select count(distinct s.ip) " +
             "from Stats as s " +
             "where s.uri = ?1 " +
             "and s.created > ?2 and s.created < ?3")
-    long countByUriForUniqueIP(String uri, LocalDateTime start, LocalDateTime end);
+    long countByUriForUniqueIP(StringBuilder uris, LocalDateTime start, LocalDateTime end);
 
-    @Query("select count(distinct s.ip) " +
-            "from Stats as s " +
-            "where s.created > ?1 and s.created < ?2")
-    long countAllForUniqueIP(LocalDateTime start, LocalDateTime end);
-
-    List<Stats> getByUriAndCreatedAfterAndCreatedBefore(String uri, LocalDateTime start, LocalDateTime end);
-
-    List<Stats> getByCreatedAfterAndCreatedBefore(LocalDateTime start, LocalDateTime end);
-
-    @Query("select distinct s " +
-            "from Stats as s " +
-            "where s.uri = ?1 " +
-            "and s.created > ?2 and s.created < ?3")
-    List<Stats> getByUriForUniqueIP(String uri, LocalDateTime start, LocalDateTime end);
-
-    @Query("select distinct s " +
-            "from Stats as s " +
-            "where s.created > ?1 and s.created < ?2")
-    List<Stats> getAllForUniqueIP(LocalDateTime start, LocalDateTime end);
 
     @Query("select distinct s.uri " +
             "from Stats as s")
-    String[] getDistinctUri();
+    List<String> getDistinctUri();
+
+    @Query("select s.uri " +
+            "from Stats as s " +
+            "where s.uri in (?1) " +
+            "and s.created > ?2 and s.created < ?3 " +
+            "GROUP BY s.ip")
+    List<String> getUrisByUriForUniqueIP(List<String> uris, LocalDateTime from, LocalDateTime to);
+
+    @Query("select s.uri " +
+            "from Stats as s " +
+            "where s.uri in (?1) " +
+            "and s.created > ?2 and s.created < ?3 " +
+            " ")
+    List<String> getUrisByUri(List<String> uris, LocalDateTime from, LocalDateTime to);
 }
