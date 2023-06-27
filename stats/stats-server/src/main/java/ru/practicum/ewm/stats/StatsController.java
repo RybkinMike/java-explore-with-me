@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.dto.stats.StatsDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public class StatsController {
     }
 
     @PostMapping("/hit")
-    public Stats saveStats(@RequestBody Stats stats) {
+    public Stats saveStats(@RequestBody @Valid Stats stats) {
         System.out.println(stats);
         return statsService.saveStats(stats);
     }
