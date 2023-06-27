@@ -24,6 +24,7 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public List<StatsDTO> getStatsFromDB(String start, String end, List<String> uris, boolean unique) {
+        System.out.println("Вход");
         LocalDateTime from = LocalDateTime.parse(start, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(end, dateTimeFormatter);
         if (uris == null || uris.size() == 0 || uris.get(0).equals("events/") || uris.get(0).isBlank()) {
@@ -31,8 +32,11 @@ public class StatsServiceImpl implements StatsService {
         }
         List<StatsDTO> listDTO = new ArrayList<>();
         List<String> urisToList;
+        System.out.println("Ветвление");
         if (unique) {
+            System.out.println("Вход в айли");
             urisToList = repository.getUrisByUriForUniqueIP(uris, from, to);
+            System.out.println("Выход из айпи");
         } else {
             urisToList = repository.getUrisByUri(uris, from, to);
             }

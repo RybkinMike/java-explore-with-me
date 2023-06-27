@@ -32,7 +32,6 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
     @Query("select s.uri " +
             "from Stats as s " +
             "where s.uri in (?1) " +
-            "and s.created > ?2 and s.created < ?3 " +
-            " ")
+            "and s.created > ?2 and s.created < ?3")
     List<String> getUrisByUri(List<String> uris, LocalDateTime from, LocalDateTime to);
 }
