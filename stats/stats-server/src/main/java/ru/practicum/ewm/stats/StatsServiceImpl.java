@@ -20,7 +20,7 @@ public class StatsServiceImpl implements StatsService {
 
     StatsRepository repository;
 
-    final static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public List<StatsDTO> getStatsFromDB(String start, String end, List<String> uris, boolean unique) {
