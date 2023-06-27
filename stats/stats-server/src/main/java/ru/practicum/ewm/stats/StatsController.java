@@ -23,13 +23,11 @@ public class StatsController {
                                    @RequestParam(value = "end") String end,
                                    @RequestParam(value = "uris", defaultValue = "") List<String> uris,
                                    @RequestParam(value = "unique", defaultValue = "false") boolean unique) {
-        System.out.println("контроллер");
         return statsService.getStatsFromDB(start, end, uris, unique);
     }
 
     @PostMapping("/hit")
     public Stats saveStats(@RequestBody @Valid Stats stats) {
-        System.out.println(stats);
         return statsService.saveStats(stats);
     }
 
