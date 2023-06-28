@@ -18,7 +18,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             "from Stats as s " +
             "where s.uri in (?1) " +
             "and s.created > ?2 and s.created < ?3 " +
-            "GROUP BY s.ip")
+            "group by s.ip")
     List<String> getUrisByUriForUniqueIP(List<String> uris, LocalDateTime from, LocalDateTime to);
 
     @Query("select s.uri " +
