@@ -13,7 +13,7 @@ public interface StatsRepository extends JpaRepository<Stats, Long> {
             "from Stats as s")
     List<String> getDistinctUri();
 
-    @Query("select s.ip, s.uri " +
+    @Query("select s.uri " +
             "from Stats as s " +
             "where s.uri in (?1) " +
             "and s.created > ?2 and s.created < ?3 " +
