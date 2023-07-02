@@ -26,8 +26,8 @@ public class StatsController {
     }
 
     @PostMapping("/hit")
-    public Stats saveStats(@RequestBody @Valid Stats stats) {
-        return statsService.saveStats(stats);
+    public StatsDtoForSave saveStats(@RequestBody @Valid StatsDtoForSave statsForSave) {
+        return statsService.saveStats(statsForSave);
     }
 
 

@@ -8,5 +8,5 @@ public interface StatsService {
 
     List<StatsDTO> getStatsFromDB(String start, String end, List<String> uris, boolean unique);
 
-    Stats saveStats(Stats stats);
+    StatsDtoForSave saveStats(StatsDtoForSave statsForSave);
 }
