@@ -15,8 +15,8 @@ import ru.practicum.ewm.model.category.Category;
 import ru.practicum.ewm.model.category.CategoryDto;
 import ru.practicum.ewm.model.category.CategoryMapper;
 import ru.practicum.ewm.model.category.CategoryRepository;
-import ru.practicum.ewm.model.event.*;
 import ru.practicum.ewm.model.compilation.*;
+import ru.practicum.ewm.model.event.*;
 import ru.practicum.ewm.model.location.LocationRepository;
 import ru.practicum.ewm.model.user.User;
 import ru.practicum.ewm.model.user.UserDto;
@@ -25,7 +25,6 @@ import ru.practicum.ewm.model.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -114,14 +113,8 @@ public class AdminServiceImpl implements AdminService {
         if (end.isBefore(LocalDateTime.now()) || end.isBefore(start)) {
             throw new ResponseException("Incorrectly made request");
         }
-        List<User> usersList = new ArrayList<>();
-        for (Long userId:users) {
-            usersList.add(userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found")));
-        }
-        List<Category> categoriesList = new ArrayList<>();
-        for (Integer categoryId:categories) {
-            categoriesList.add(categoryRepository.findById(Long.valueOf(categoryId)).orElseThrow(() -> new NotFoundException("category not found")));
-        }
+        List<User> usersList = userRepository.findByIds(users);
+        List<Category> categoriesList = categoryRepository.findByIds(categories);
         return eventMapper.toListEventFullDtoFromListEvent(eventRepository.findByInitiatorAndStateAndCategoryAndEventDateBeforeEnd(usersList, states, categoriesList, start, end, page).toList());
     }
 

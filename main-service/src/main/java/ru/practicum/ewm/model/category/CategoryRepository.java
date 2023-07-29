@@ -18,4 +18,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     List<Integer> findAllId();
 
     Optional<Category> findByName(String name);
+
+    @Query("select c " +
+            "from Category as c " +
+            "where c.id in ?1")
+    List<Category> findByIds(List<Integer> categories);
 }
