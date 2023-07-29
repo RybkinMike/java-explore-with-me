@@ -1,2 +1,22 @@
-package ru.practicum.ewm.model.Request;public class ParticipationRequestDto {
+package ru.practicum.ewm.model.request;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ParticipationRequestDto {
+
+    long id;
+
+    String created;
+
+    Long event;
+
+    Long requester;
+
+    String status;
 }

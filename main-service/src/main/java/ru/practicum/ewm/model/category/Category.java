@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model;
+package ru.practicum.ewm.model.category;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,7 +7,6 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,6 +27,4 @@ public class Category {
     @Size(max = 50)
     @Column
     String name;
-
-
 }

@@ -1,55 +1,80 @@
 CREATE TABLE IF NOT EXISTS users
 (
     id      BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    email   varchar(100) NOT NULL,
+    email   varchar(254) NOT NULL,
     name    varchar(250) NOT NULL,
     UNIQUE  (email)
 );
 
-CREATE TABLE IF NOT EXISTS items
+CREATE TABLE IF NOT EXISTS locations
 (
-    id          BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    user_id     BIGINT NOT NULL,
-    description varchar(200),
-    count       BIGINT,
-    available   varchar(50),
-    name        varchar(100),
-    request_id  BIGINT,
-    CONSTRAINT  fk_items_to_users FOREIGN KEY(user_id) REFERENCES users(id),
+    id      BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+    lat     FLOAT NOT NULL,
+    lon     FLOAT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS categories
+(
+    id      BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+    name    varchar(50),
+    UNIQUE  (name)
+);
+
+
+
+CREATE TABLE IF NOT EXISTS events
+(
+    id                BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+    annotation        varchar(2000),
+    category_id       BIGINT,
+    created_on         timestamp,
+    description       varchar(7000),
+    event_date         timestamp,
+    initiator_id         BIGINT,
+    location_id       BIGINT,
+    paid              boolean,
+    participant_limit  INT NOT NULL,
+    published_on       timestamp,
+    request_moderation varchar(50),
+    state             varchar(50),
+    title             varchar(120),
+    views             BIGINT,
+    confirmed_requests INT,
+    CONSTRAINT  fk_events_to_categories FOREIGN KEY(category_id) REFERENCES categories(id),
+    CONSTRAINT  fk_events_to_users FOREIGN KEY(initiator_id) REFERENCES users(id),
+    CONSTRAINT  fk_events_to_locations FOREIGN KEY(location_id) REFERENCES locations(id),
     UNIQUE      (id)
 );
 
-CREATE TABLE IF NOT EXISTS comments
+CREATE TABLE IF NOT EXISTS requests
 (
-    id          BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    item_id     BIGINT,
-    author_name varchar(250),
-    created     timestamp,
-    text        VARCHAR(1000),
-    CONSTRAINT  items FOREIGN KEY(item_id) REFERENCES items(id)
-);
-
-CREATE TABLE IF NOT EXISTS bookings
-(
-    id          BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    user_id     BIGINT NOT NULL,
-    item_id     BIGINT NOT NULL,
-    status      varchar(200),
-    start       timestamp,
-    finish      timestamp,
-    CONSTRAINT  fk_booking_to_users FOREIGN KEY(user_id) REFERENCES users(id),
-    CONSTRAINT  fk_booking_to_items FOREIGN KEY(item_id) REFERENCES items(id),
+    id                BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+    created           timestamp,
+    event_id          BIGINT,
+    requester_id           BIGINT,
+    status            varchar(100),
+    CONSTRAINT  fk_requests_to_events FOREIGN KEY(event_id) REFERENCES events(id),
+    CONSTRAINT  fk_requests_to_users FOREIGN KEY(requester_id) REFERENCES users(id),
     UNIQUE      (id)
 );
 
-CREATE TABLE IF NOT EXISTS item_request
+
+
+CREATE TABLE IF NOT EXISTS compilations
 (
     id          BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
-    user_id     BIGINT,
+    event_id    BIGINT,
+    pinned      varchar(50),
+    title       varchar(200),
 
-    description varchar(1000),
-    created     timestamp,
-
+    CONSTRAINT  fk_compilations_to_events FOREIGN KEY(event_id) REFERENCES events(id),
     UNIQUE      (id)
+);
+
+CREATE TABLE IF NOT EXISTS compilations_to_events
+(
+    compilation_id BIGINT,
+    event_id    BIGINT
+
 );
 

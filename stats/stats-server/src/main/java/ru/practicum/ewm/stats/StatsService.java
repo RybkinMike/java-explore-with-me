@@ -1,6 +1,7 @@
 package ru.practicum.ewm.stats;
 
 import ru.practicum.ewm.dto.stats.StatsDTO;
+import ru.practicum.ewm.dto.stats.StatsDtoForSave;
 
 import java.util.List;
 

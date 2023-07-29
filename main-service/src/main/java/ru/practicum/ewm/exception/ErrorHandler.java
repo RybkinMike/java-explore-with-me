@@ -1,4 +1,4 @@
-package ru.practicum.shareit.exception;
+package ru.practicum.ewm.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,17 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleValidationException(final ValidationException e) {
+        log.info("409 {}", e.getMessage());
+        return new ErrorResponse(
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationException(final ResponseException e) {
         log.info("400 {}", e.getMessage());
         return new ErrorResponse(
                 e.getMessage()

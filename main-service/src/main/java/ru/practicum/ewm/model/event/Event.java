@@ -1,14 +1,16 @@
-package ru.practicum.ewm.model;
+package ru.practicum.ewm.model.event;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.ewm.model.category.Category;
+import ru.practicum.ewm.model.location.Location;
+import ru.practicum.ewm.model.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "events", schema = "public")
@@ -43,7 +45,7 @@ public class Event {
     Location location;
 
     @Column
-    String paid;
+    Boolean paid;
 
     @Column
     int participantLimit;
@@ -62,4 +64,7 @@ public class Event {
 
     @Column
     Long views;
+
+    @Column
+    int confirmedRequests;
 }

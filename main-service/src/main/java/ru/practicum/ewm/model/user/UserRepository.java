@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model;
+package ru.practicum.ewm.model.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

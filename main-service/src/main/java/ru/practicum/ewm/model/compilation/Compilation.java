@@ -1,14 +1,16 @@
-package ru.practicum.ewm.model.compilaation;
+package ru.practicum.ewm.model.compilation;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.ewm.model.Event.Event;
+import ru.practicum.ewm.model.event.Event;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -23,12 +25,19 @@ public class Compilation {
     long id;
 
     @ManyToMany
+    @JoinTable(
+            name = "compilations_to_events",
+            joinColumns = @JoinColumn(name = "compilation_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
     List<Event> events;
 
     @Column
     Boolean pinned;
 
     @Column
-    @NotNull(message = "Title не может быть пустым")
+    @NotBlank
+    @NotNull
+    @Size(max = 50)
     String title;
 }

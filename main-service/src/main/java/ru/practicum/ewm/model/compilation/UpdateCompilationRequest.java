@@ -1,2 +1,20 @@
-package ru.practicum.ewm.model.compilation;public class UpdateCompilationRequest {
+package ru.practicum.ewm.model.compilation;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import javax.validation.constraints.Size;
+import java.util.List;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class UpdateCompilationRequest {
+    List<Long> events;
+
+    Boolean pinned;
+
+    @Size(max = 50)
+    String title;
 }

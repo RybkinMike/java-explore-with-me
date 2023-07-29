@@ -1,4 +1,4 @@
-package ru.practicum.ewm.public1;
+package ru.practicum;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,17 +15,17 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class Client {
+public class StatsClient {
     private  final RestTemplate restTemplate;
     ObjectMapper mapper = new  ObjectMapper();
 
-    public Client(RestTemplateBuilder builder) {
+    public StatsClient(RestTemplateBuilder builder) {
         this.restTemplate = builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory("http://localhost:9090"))
                 .build();
     }
 
-    void postHit(String uri, String ip) {
+    public void postHit(String uri, String ip) {
         String app = "ewm-main-service";
         StatsDtoForSave statsDtoForSave = new StatsDtoForSave(app, uri, ip);
         try {

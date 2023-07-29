@@ -2,6 +2,7 @@ package ru.practicum.ewm.model.compilation;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.ewm.model.event.Event;
 
 import java.util.List;
 
@@ -10,15 +11,12 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CompDto {
+public class CompilationDto {
     long id;
 
-
-    List<Long> events;
-
+    List<Event> events;
 
     Boolean pinned;
-
 
     String title;
 }

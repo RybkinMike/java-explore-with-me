@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.dto.stats.StatsDTO;
+import ru.practicum.ewm.dto.stats.StatsDtoForSave;
 
 
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ import java.util.*;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class StatsServiceImpl implements StatsService {
 
-    StatsRepository repository;
+    private final StatsRepository repository;
 
     static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -41,6 +42,7 @@ public class StatsServiceImpl implements StatsService {
             listDTO.add(statsDTO);
         }
         listDTO.sort((dto1, dto2) -> (int) (dto2.getHits() - dto1.getHits()));
+        log.info("listDTO = {}", listDTO);
         return listDTO;
     }
 
@@ -52,6 +54,7 @@ public class StatsServiceImpl implements StatsService {
         stats.setIp(statsForSave.getIp());
         stats.setCreated(LocalDateTime.now());
         repository.save(stats);
+        log.info("statsForSave = {}",stats);
         return statsForSave;
     }
 }
