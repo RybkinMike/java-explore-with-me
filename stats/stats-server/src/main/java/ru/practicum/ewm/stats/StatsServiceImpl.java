@@ -8,6 +8,7 @@ import org.hibernate.boot.jaxb.internal.stax.JpaOrmXmlEventReader;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.dto.stats.StatsDTO;
 import ru.practicum.ewm.dto.stats.StatsDtoForSave;
+import ru.practicum.ewm.stats.exception.ResponseException;
 
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class StatsServiceImpl implements StatsService {
         LocalDateTime from = LocalDateTime.parse(start, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(end, dateTimeFormatter);
         if (from.isAfter(to)) {
-            throw new JpaOrmXmlEventReader.BadVersionException("");
+            throw new ResponseException("start is after end");
         }
         if (uris == null || uris.size() == 0 || uris.get(0).equals("events/") || uris.get(0).isBlank()) {
             uris = repository.getDistinctUri();
