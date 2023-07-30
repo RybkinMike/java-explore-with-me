@@ -17,7 +17,7 @@ public interface AdminService {
 
     CategoryDto patchCategory(CategoryDto categoryDto, Long catId);
 
-    List<EventFullDto> getEvents(List<Long> users, List<String> states, List<Integer> categories, String rangeStart, String rangeEnd, Integer from, Integer size);
+    List<EventFullDto> getEvents(List<Long> users, List<String> states, List<Long> categories, String rangeStart, String rangeEnd, Integer from, Integer size);
 
     EventFullDto patchEvent(UpdateEventAdminRequest updateEventAdminRequest, Long eventId);
 

@@ -28,6 +28,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u " +
             "from User as u " +
-            "where u.id in ?1")
+            "where u.id in (?1)")
     List<User> findByIds(List<Long> users);
 }

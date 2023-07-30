@@ -81,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<EventFullDto> getEvents(List<Long> users, List<String> states, List<Integer> categories, String rangeStart, String rangeEnd, Integer from, Integer size) {
+    public List<EventFullDto> getEvents(List<Long> users, List<String> states, List<Long> categories, String rangeStart, String rangeEnd, Integer from, Integer size) {
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
         int pageIndex = from / size;
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
