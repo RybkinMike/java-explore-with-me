@@ -27,6 +27,9 @@ public class StatsServiceImpl implements StatsService {
     public List<StatsDTO> getStatsFromDB(String start, String end, List<String> uris, boolean unique) {
         LocalDateTime from = LocalDateTime.parse(start, dateTimeFormatter);
         LocalDateTime to = LocalDateTime.parse(end, dateTimeFormatter);
+        if (from.isAfter(to)) {
+            throw new RuntimeException();
+        }
         if (uris == null || uris.size() == 0 || uris.get(0).equals("events/") || uris.get(0).isBlank()) {
             uris = repository.getDistinctUri();
         }

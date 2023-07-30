@@ -15,7 +15,7 @@ public interface PublicService {
 
     CategoryDto getCategory(Long catId);
 
-    List<EventFullDto> getEvents(String text, List<Long> categories, String paid, String rangeStart, String rangeEnd, String onlyAvailable, String sort, Integer from, Integer size);
+    List<EventFullDto> getEvents(String text, List<Long> categories, String paid, String rangeStart, String rangeEnd, String onlyAvailable, String sort, Integer from, Integer size, String uri, String ip);
 
     EventFullDto getEvent(Long id, String uri, String ip);
 }

@@ -75,7 +75,7 @@ public class PublicServiceImpl implements PublicService {
     }
 
     @Override
-    public List<EventFullDto> getEvents(String text, List<Long> categories, String paid, String rangeStart, String rangeEnd, String onlyAvailable, String sort, Integer from, Integer size) {
+    public List<EventFullDto> getEvents(String text, List<Long> categories, String paid, String rangeStart, String rangeEnd, String onlyAvailable, String sort, Integer from, Integer size, String uri, String ip) {
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "id");
         int pageIndex = from / size;
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
@@ -107,7 +107,21 @@ public class PublicServiceImpl implements PublicService {
             }
         }
         if (categories.isEmpty()) {
+            List<Event> events = eventRepository.getEventsNoCategory(text, listPaid, start, end, page).toList();
+            for (Event event: events
+                 ) {
+                client.postHit(uri, ip);
+                event.setViews(client.getViews(uri));
+                eventRepository.save(event);
+            }
             return eventMapper.toListEventFullDtoFromListEvent(eventRepository.getEventsNoCategory(text, listPaid, start, end, page).toList());
+        }
+        List<Event> events = eventRepository.findByQuery(text, categories, listPaid, start, end, page).toList();
+        for (Event event: events
+        ) {
+            client.postHit(uri, ip);
+            event.setViews(client.getViews(uri));
+            eventRepository.save(event);
         }
         return eventMapper.toListEventFullDtoFromListEvent(eventRepository.findByQuery(text, categories, listPaid, start, end, page).toList());
     }

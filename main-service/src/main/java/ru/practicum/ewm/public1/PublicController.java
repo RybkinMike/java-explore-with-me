@@ -59,10 +59,14 @@ public class PublicController {
                                         @RequestParam(value = "onlyAvailable", required = false) String onlyAvailable,
                                         @RequestParam(value = "sort",  defaultValue = "EVENT_DATE") String sort,
                                         @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                        @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                        @Positive @RequestParam(name = "size", defaultValue = "10") Integer size,
+                                        HttpServletRequest request) {
         log.info("Get all Events from={}, size={}, text={}, categories={}, paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}", from, size, text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort);
-
-        return publicService.getEvents(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+        String ip = request.getRemoteAddr();
+        log.info("client ip: {}", ip);
+        String uri = request.getRequestURI();
+        log.info("endpoint path: {}", uri);
+        return publicService.getEvents(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, uri, ip);
     }
 
     @GetMapping("/events/{id}")
