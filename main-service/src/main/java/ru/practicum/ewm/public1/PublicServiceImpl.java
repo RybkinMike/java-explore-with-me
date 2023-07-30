@@ -108,21 +108,10 @@ public class PublicServiceImpl implements PublicService {
         }
         if (categories.isEmpty()) {
             List<Event> events = eventRepository.getEventsNoCategory(text, listPaid, start, end, page).toList();
-            for (Event event: events
-                 ) {
-                client.postHit(uri, ip);
-                event.setViews(client.getViews(uri));
-                eventRepository.save(event);
-            }
+            client.postHit(uri, ip);
             return eventMapper.toListEventFullDtoFromListEvent(eventRepository.getEventsNoCategory(text, listPaid, start, end, page).toList());
         }
-        List<Event> events = eventRepository.findByQuery(text, categories, listPaid, start, end, page).toList();
-        for (Event event: events
-        ) {
             client.postHit(uri, ip);
-            event.setViews(client.getViews(uri));
-            eventRepository.save(event);
-        }
         return eventMapper.toListEventFullDtoFromListEvent(eventRepository.findByQuery(text, categories, listPaid, start, end, page).toList());
     }
 
