@@ -16,6 +16,7 @@ public interface CompilationService {
     @Transactional
     void deleteCompilation(Long compId);
 
+    @Transactional
     CompilationDto patchCompilation(UpdateCompilationRequest updateCompilationRequest, Long compId);
 
     List<CompilationDto> getCompilations(Integer from, Integer size, boolean pinned);

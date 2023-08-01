@@ -10,10 +10,10 @@ import java.util.List;
 public interface UserService {
     List<UserDto> getUsers(List<Long> users, Integer from, Integer size);
 
-    @Transactional(readOnly = true)
+    @Transactional
     UserDto saveUser(UserDto userDto);
 
-    @Transactional(readOnly = true)
+    @Transactional
     void deleteUser(Long userId);
 
     User findById(Long userId);
