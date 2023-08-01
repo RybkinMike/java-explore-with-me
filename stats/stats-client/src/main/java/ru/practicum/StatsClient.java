@@ -19,6 +19,10 @@ public class StatsClient {
     private  final RestTemplate restTemplate;
     ObjectMapper mapper = new  ObjectMapper();
 
+    public static final String START = "2000-01-01 01:01:01";
+
+    public static final String END = "3000-01-01 01:01:01";
+
     public StatsClient(RestTemplateBuilder builder) {
         this.restTemplate = builder
                 .uriTemplateHandler(new DefaultUriBuilderFactory("http://stats-server:9090"))
@@ -33,28 +37,25 @@ public class StatsClient {
             log.info("response: " + response);
         } catch (Exception ex) {
             log.error("error", ex);
+            throw new RuntimeException("Error in Stats service");
         }
 
 
     }
 
     public Long getViews(String uri) {
-        String start = "2000-01-01 01:01:01";
-        String end = "3000-01-01 01:01:01";
         List<String> uris = new ArrayList();
         uris.add(uri);
         Long views = 0L;
 
         try {
-
-            List<StatsDTO> response = mapper.convertValue(restTemplate.getForObject("/stats?start=" + start + "&end=" + end + "&uris=" + uri + "&unique=true", List.class), new TypeReference<List<StatsDTO>>() {});
+            List<StatsDTO> response = mapper.convertValue(restTemplate.getForObject("/stats?start=" + START + "&end=" + END + "&uris=" + uri + "&unique=true", List.class), new TypeReference<List<StatsDTO>>() {});
             log.info("response = {}", response);
             log.info("1stats = {}", response.get(0));
-
-
             views = response.get(0).getHits();
         } catch (Exception ex) {
             log.error("error", ex);
+            throw new RuntimeException("Error in Stats service");
         }
         return views;
     }

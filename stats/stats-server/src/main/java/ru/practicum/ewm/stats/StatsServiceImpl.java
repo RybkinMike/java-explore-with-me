@@ -4,16 +4,16 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.boot.jaxb.internal.stax.JpaOrmXmlEventReader;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.dto.stats.StatsDTO;
 import ru.practicum.ewm.dto.stats.StatsDtoForSave;
 import ru.practicum.ewm.stats.exception.ResponseException;
 
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
