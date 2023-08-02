@@ -1,53 +1,64 @@
 package ru.practicum;
 
-import org.springframework.http.*;
-import org.springframework.lang.Nullable;
-import org.springframework.web.client.HttpStatusCodeException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import java.util.Map;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import ru.practicum.ewm.dto.stats.StatsDTO;
+import ru.practicum.ewm.dto.stats.StatsDtoForSave;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+@Slf4j
 public class StatsClient {
-    protected final RestTemplate rest;
+    private  final RestTemplate restTemplate;
+    ObjectMapper mapper = new  ObjectMapper();
 
-    public StatsClient(RestTemplate rest) {
-        this.rest = rest;
+    public static final String START = "2000-01-01 01:01:01";
+
+    public static final String END = "3000-01-01 01:01:01";
+
+    public StatsClient(RestTemplateBuilder builder) {
+        this.restTemplate = builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory("http://stats-server:9090"))
+                .build();
     }
 
-    protected ResponseEntity<Object> get(String path, @Nullable Map<String, Object> parameters) {
-        return makeAndSendRequest(HttpMethod.GET, path, parameters, null);
-    }
-
-    protected <T> ResponseEntity<Object> post(String path, @Nullable Map<String, Object> parameters, T body) {
-        return makeAndSendRequest(HttpMethod.POST, path, parameters, body);
-    }
-
-    private <T> ResponseEntity<Object> makeAndSendRequest(HttpMethod method, String path, @Nullable Map<String, Object> parameters, @Nullable T body) {
-        HttpEntity<T> requestEntity = new HttpEntity<>(body);
-
-        ResponseEntity<Object> statsServerResponse;
+    public void postHit(String uri, String ip) {
+        String app = "ewm-main-service";
+        StatsDtoForSave statsDtoForSave = new StatsDtoForSave(app, uri, ip);
         try {
-            if (parameters != null) {
-                statsServerResponse = rest.exchange(path, method, requestEntity, Object.class, parameters);
-            } else {
-                statsServerResponse = rest.exchange(path, method, requestEntity, Object.class);
-            }
-        } catch (HttpStatusCodeException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsByteArray());
+            StatsDtoForSave response = restTemplate.postForObject("/hit", statsDtoForSave, StatsDtoForSave.class);
+            log.info("response: " + response);
+        } catch (Exception ex) {
+            log.error("error", ex);
+            throw new RuntimeException("Error in Stats service");
         }
-        return prepareEwmResponse(statsServerResponse);
+
+
     }
 
-    private static ResponseEntity<Object> prepareEwmResponse(ResponseEntity<Object> response) {
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response;
+    public Long getViews(String uri) {
+        List<String> uris = new ArrayList();
+        uris.add(uri);
+        Long views = 0L;
+
+        try {
+            List<StatsDTO> response = mapper.convertValue(restTemplate.getForObject("/stats?start=" + START + "&end=" + END + "&uris=" + uri + "&unique=true", List.class), new TypeReference<List<StatsDTO>>() {});
+            log.info("response = {}", response);
+            log.info("1stats = {}", response.get(0));
+            views = response.get(0).getHits();
+        } catch (Exception ex) {
+            log.error("error", ex);
+            throw new RuntimeException("Error in Stats service");
         }
-
-        ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.status(response.getStatusCode());
-
-        if (response.hasBody()) {
-            return responseBuilder.body(response.getBody());
-        }
-
-        return responseBuilder.build();
+        return views;
     }
+
+
 }
