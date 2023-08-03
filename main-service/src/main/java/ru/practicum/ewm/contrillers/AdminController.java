@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import ru.practicum.ewm.category.CategoryService;
 import ru.practicum.ewm.category.model.CategoryDto;
+import ru.practicum.ewm.comment.CommentService;
+import ru.practicum.ewm.comment.model.ParticipationCommentDto;
+import ru.practicum.ewm.comment.model.StatusUpdateComment;
 import ru.practicum.ewm.compilation.CompilationService;
 import ru.practicum.ewm.compilation.model.CompilationDto;
 import ru.practicum.ewm.compilation.model.NewCompilationDto;
@@ -40,6 +42,8 @@ public class AdminController {
     UserService userService;
 
     CompilationService compilationService;
+
+    CommentService commentService;
 
     @PostMapping("/categories")
     public ResponseEntity<CategoryDto> saveCategory(@RequestBody @Valid CategoryDto categoryDto) {
@@ -114,4 +118,18 @@ public class AdminController {
         return compilationService.patchCompilation(updateCompilationRequest, compId);
     }
 
+    @GetMapping("comments")
+    public List<ParticipationCommentDto> getCommentsAdmin(@PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                                          @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        log.info("Get comments for admin");
+        return commentService.getCommentsAdmin(from, size);
+    }
+
+
+    @PatchMapping("/comments/{commentId}")
+    public ParticipationCommentDto patchCommentAdmin(@RequestBody @Valid StatusUpdateComment statusUpdateComment,
+                                                            @PathVariable Long commentId) {
+        log.info("Publish or reject comment with ID={}", commentId);
+        return commentService.patchCommentsAdmin(statusUpdateComment, commentId);
+    }
 }
