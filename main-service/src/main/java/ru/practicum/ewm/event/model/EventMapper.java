@@ -57,8 +57,7 @@ public class EventMapper {
 
     public static List<EventFullDto> toListEventFullDtoFromListEvent(List<Event> listEvent) {
         List<EventFullDto> listEventFullDto = new ArrayList<>();
-        for (Event event:listEvent
-        ) {
+        for (Event event : listEvent) {
             listEventFullDto.add(toFullDtoFromEntity(event, event.getConfirmedRequests()));
         }
         return listEventFullDto;

@@ -50,12 +50,10 @@ public class RequestServiceImpl implements RequestService {
         List<Request> rejectedRequest = requestRepository.findAllByStatusAndEventId("REJECTED", eventId);
         List<ParticipationRequestDto> confirmedParticipationRequest = new ArrayList<>();
         List<ParticipationRequestDto> rejectedParticipationRequest = new ArrayList<>();
-        for (Request request:confirmedRequest
-        ) {
+        for (Request request : confirmedRequest) {
             confirmedParticipationRequest.add(RequestMapper.toParticipationRequestDtoFromRequest(request));
         }
-        for (Request request:rejectedRequest
-        ) {
+        for (Request request : rejectedRequest) {
             rejectedParticipationRequest.add(RequestMapper.toParticipationRequestDtoFromRequest(request));
         }
         eventRequestStatusUpdateResult.setConfirmedRequests(confirmedParticipationRequest);
@@ -87,8 +85,7 @@ public class RequestServiceImpl implements RequestService {
         }
         List<Request> requestList = requestRepository.findByRequesterId(userId);
         if (!requestList.isEmpty()) {
-            for (Request requestFromRepository:requestList
-            ) {
+            for (Request requestFromRepository : requestList) {
                 if (requestFromRepository.getEvent().equals(event)) {
                     throw new ValidationException("Request is exist");
                 }

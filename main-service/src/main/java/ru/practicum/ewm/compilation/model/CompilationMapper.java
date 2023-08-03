@@ -29,8 +29,7 @@ public class CompilationMapper {
 
     public static List<CompilationDto> toListDtoFromListEntity(List<Compilation> listEntity) {
         List<CompilationDto> listDto = new ArrayList<>();
-        for (Compilation compilation:listEntity
-        ) {
+        for (Compilation compilation : listEntity) {
             listDto.add(toDtoFromEntity(compilation));
         }
         return listDto;

@@ -26,7 +26,7 @@ public class UserMapper {
 
         public static List<UserDto> toListDtoFromListEntity(List<User> listEntity) {
             List<UserDto> listDto = new ArrayList<>();
-            for (User user:listEntity) {
+            for (User user : listEntity) {
                 listDto.add(toDtoFromEntity(user));
             }
             return listDto;
