@@ -23,8 +23,7 @@ public class RequestMapper {
 
     public static List<ParticipationRequestDto> toListParticipationRequestDtoFromListRequest(List<Request> listRequester) {
         List<ParticipationRequestDto> listParticipationRequestDto = new ArrayList<>();
-        for (Request request:listRequester
-             ) {
+        for (Request request : listRequester) {
             listParticipationRequestDto.add(toParticipationRequestDtoFromRequest(request));
         }
         return listParticipationRequestDto;

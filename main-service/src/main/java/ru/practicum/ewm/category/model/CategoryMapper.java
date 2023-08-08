@@ -22,8 +22,7 @@ public class CategoryMapper {
 
     public static List<CategoryDto> toListDtoFromListEntity(List<Category> listEntity) {
         List<CategoryDto> listDto = new ArrayList<>();
-        for (Category category:listEntity
-        ) {
+        for (Category category : listEntity) {
             listDto.add(toDtoFromEntity(category));
         }
         return listDto;
